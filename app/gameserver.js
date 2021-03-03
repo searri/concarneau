@@ -1,7 +1,7 @@
 /* jslint smarttabs:true */
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
-var twit = require('twit'); // TODO: this is not supported any longer, replace with https://github.com/draftbit/twitter-lite
+// var twit = require('twit'); // TODO: this is not supported any longer, replace with https://github.com/draftbit/twitter-lite
 var auth = require('../config/auth');
 var mailer = require('./mailer');
 
@@ -18,12 +18,12 @@ var User = require('./models/user');
 //TODO: send e-mail on game start not just on turn start (to active player if not current user)
 var userToSocket = {};
 
-var twitter = new twit({
-	consumer_key: auth.twitterAuth.consumerKey,
-	consumer_secret: auth.twitterAuth.consumerSecret,
-	access_token: auth.twitterAuth.accessToken,
-	access_token_secret: auth.twitterAuth.accessTokenSecret
-});
+// var twitter = new twit({
+// 	consumer_key: auth.twitterAuth.consumerKey,
+// 	consumer_secret: auth.twitterAuth.consumerSecret,
+// 	access_token: auth.twitterAuth.accessToken,
+// 	access_token_secret: auth.twitterAuth.accessTokenSecret
+// });
 
 module.exports = function(server, sessionStore) {
 	// if the tile db is empty load in the tiles,
@@ -200,13 +200,13 @@ module.exports = function(server, sessionStore) {
 															});
 														}
 														// send twitter notification if we have a valid twitter handle and the user has the option enabled
-														if(activeUser.twitter.username && activeUser.twitter_notifications) {
-															twitter.post('statuses/update', { status: '@' + activeUser.twitter.username + ' There is a Concarneau game where it is your turn: ' + process.env.SERVER_URL + '?' + Math.floor(Math.random()*1000000) }, function(err) {
-																if(err) {
-																	console.log('twitter failed: ' + err);
-																}
-															});
-														}
+														// if(activeUser.twitter.username && activeUser.twitter_notifications) {
+														// 	twitter.post('statuses/update', { status: '@' + activeUser.twitter.username + ' There is a Concarneau game where it is your turn: ' + process.env.SERVER_URL + '?' + Math.floor(Math.random()*1000000) }, function(err) {
+														// 		if(err) {
+														// 			console.log('twitter failed: ' + err);
+														// 		}
+														// 	});
+														// }
 													}
 													// get distinct list of user IDs in the game
 													var distinctUserIDs = gamestate.players.map(function(player) { return player.user._id; }).filter(function(value, index, self) {
@@ -282,13 +282,13 @@ module.exports = function(server, sessionStore) {
 							}
 						});
 					});
-					socket.on('twitter notification', function(enabled) {
-						User.findByIdAndUpdate(currentUser._id, { $set: { twitter_notifications: enabled }} , function(err, user) {
-							if(!err && user) {
-								currentUser = user;
-							}
-						});
-					});
+					// socket.on('twitter notification', function(enabled) {
+					// 	User.findByIdAndUpdate(currentUser._id, { $set: { twitter_notifications: enabled }} , function(err, user) {
+					// 		if(!err && user) {
+					// 			currentUser = user;
+					// 		}
+					// 	});
+					// });
 					socket.on('sound notification', function(enabled) {
 						User.findByIdAndUpdate(currentUser._id, { $set: { sound_notifications: enabled }} , function(err, user) {
 							if(!err && user) {

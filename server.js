@@ -11,17 +11,17 @@ if(process.env.C9_PROJECT) {
 }
 
 // if configured to use newrelic connect to it
-if(process.env.NEW_RELIC_LICENSE_KEY) {
-	require('newrelic');
-}
+// if(process.env.NEW_RELIC_LICENSE_KEY) {
+// 	require('newrelic');
+// }
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 25565;
 
 // if we're behind an http proxy set up all requests to go through it
 if(process.env.HTTP_PROXY) {
 	var parsedURL = require('url').parse(process.env.HTTP_PROXY);
 	var host = parsedURL && parsedURL.hostname ? parsedURL.hostname : '127.0.0.1';
-	port = parsedURL && parsedURL.port ? parseInt(parsedURL.port, 10) : 8080;
+	port = parsedURL && parsedURL.port ? parseInt(parsedURL.port, 10) : 25565;
 	require('./config/proxy')(host, port);
 }
 
